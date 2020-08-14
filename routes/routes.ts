@@ -7,9 +7,9 @@ const router = new Router();
 
 // urls
 router
-  .get('/urls', getAllUrls)
-  .post('/urls', addUrl)
-  .delete('/urls/:code', deleteUrl);
+  .get('/api/urls', getAllUrls)
+  .post('/api/urls', addUrl)
+  .delete('/api/urls/:code', deleteUrl);
 
 // index
 router.get('/:code', getShortUrl);

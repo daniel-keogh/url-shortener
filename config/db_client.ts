@@ -26,7 +26,7 @@ export namespace DbClient {
     db = client.database(dbName);
   }
 
-  export function getUrls(): Collection<Url> {
+  export function urls(): Collection<Url> {
     return db.collection('urls');
   }
 }

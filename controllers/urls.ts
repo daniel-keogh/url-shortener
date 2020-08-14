@@ -8,7 +8,7 @@ const uid = new ShortUniqueId();
 
 const getAllUrls = async (ctx: RouterContext) => {
   try {
-    const data = await DbClient.getUrls().find();
+    const data = await DbClient.urls().find();
 
     const urls = data.map((item) => {
       return {
@@ -36,7 +36,7 @@ const addUrl = async (ctx: RouterContext) => {
 
     // Check if valid Url
     try {
-      new URL(data.long);
+      new URL(data.longUrl);
     } catch (e) {
       ctx.response.status = 422;
       ctx.response.body = {
@@ -47,8 +47,8 @@ const addUrl = async (ctx: RouterContext) => {
     }
 
     // Check if url already exists
-    const existingUrl: any = await DbClient.getUrls().findOne({
-      longUrl: data.long,
+    const existingUrl: any = await DbClient.urls().findOne({
+      longUrl: data.longUrl,
     });
 
     let url: Url;
@@ -72,11 +72,11 @@ const addUrl = async (ctx: RouterContext) => {
       url = {
         code,
         shortUrl: `${host}/${code}`,
-        longUrl: data.long,
+        longUrl: data.longUrl,
         isoTimestamp: new Date().toISOString(),
       };
 
-      await DbClient.getUrls().insertOne(url);
+      await DbClient.urls().insertOne(url);
     }
 
     ctx.response.body = {
@@ -94,7 +94,7 @@ const addUrl = async (ctx: RouterContext) => {
 
 const deleteUrl = async (ctx: RouterContext) => {
   try {
-    const count: number = await DbClient.getUrls().deleteOne({
+    const count: number = await DbClient.urls().deleteOne({
       code: ctx.params.code,
     });
 
