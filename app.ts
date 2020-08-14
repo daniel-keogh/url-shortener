@@ -1,4 +1,4 @@
-import { Application } from 'https://deno.land/x/oak/mod.ts';
+import { Application, send } from 'https://deno.land/x/oak@v6.0.1/mod.ts';
 import { DbClient } from './config/db_client.ts';
 
 import router from './routes/routes.ts';
@@ -22,6 +22,14 @@ app.use(async (ctx, next) => {
 // Routes
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+// Serve client app
+app.use(async (ctx) => {
+  await send(ctx, ctx.request.url.pathname, {
+    root: `${Deno.cwd()}/client/dist`,
+    index: 'index.html',
+  });
+});
 
 console.log(`Server listening on port: ${port}`);
 

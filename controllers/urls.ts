@@ -1,4 +1,4 @@
-import { RouterContext } from 'https://deno.land/x/oak@v6.0.1/mod.ts';
+import { RouterContext, Status } from 'https://deno.land/x/oak@v6.0.1/mod.ts';
 import ShortUniqueId from 'https://cdn.jsdelivr.net/npm/short-unique-id@latest/short_uuid/mod.ts';
 
 import { DbClient } from '../config/db_client.ts';
@@ -22,7 +22,7 @@ const getAllUrls = async (ctx: RouterContext) => {
       urls: urls ?? [],
     };
   } catch (_) {
-    ctx.response.status = 500;
+    ctx.response.status = Status.InternalServerError;
     ctx.response.body = {
       success: false,
       message: 'Internal Server Error',
@@ -38,7 +38,7 @@ const addUrl = async (ctx: RouterContext) => {
     try {
       new URL(data.longUrl);
     } catch (e) {
-      ctx.response.status = 422;
+      ctx.response.status = Status.UnprocessableEntity;
       ctx.response.body = {
         success: false,
         message: e.message,
@@ -84,7 +84,7 @@ const addUrl = async (ctx: RouterContext) => {
       url,
     };
   } catch (_) {
-    ctx.response.status = 500;
+    ctx.response.status = Status.InternalServerError;
     ctx.response.body = {
       success: false,
       message: 'Internal Server Error',
@@ -103,7 +103,7 @@ const deleteUrl = async (ctx: RouterContext) => {
       count,
     };
   } catch (_) {
-    ctx.response.status = 500;
+    ctx.response.status = Status.InternalServerError;
     ctx.response.body = {
       success: false,
       message: 'Internal Server Error',

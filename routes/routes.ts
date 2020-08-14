@@ -1,6 +1,6 @@
-import { Router } from 'https://deno.land/x/oak/mod.ts';
+import { Router } from 'https://deno.land/x/oak@v6.0.1/mod.ts';
 
-import { getShortUrl } from '../controllers/index.ts';
+import { getShortUrl, getFavicon } from '../controllers/index.ts';
 import { getAllUrls, addUrl, deleteUrl } from '../controllers/urls.ts';
 
 const router = new Router();
@@ -12,6 +12,8 @@ router
   .delete('/api/urls/:code', deleteUrl);
 
 // index
-router.get('/:code', getShortUrl);
+router
+  .get('/favicon.ico', getFavicon)
+  .get('/:code', getShortUrl);
 
 export default router;
