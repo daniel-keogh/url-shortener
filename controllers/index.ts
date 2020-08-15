@@ -1,8 +1,4 @@
-import {
-  RouterContext,
-  Status,
-  send,
-} from 'https://deno.land/x/oak@v6.0.1/mod.ts';
+import { RouterContext, Status } from 'https://deno.land/x/oak@v6.0.1/mod.ts';
 import { getQuery } from 'https://deno.land/x/oak@v6.0.1/helpers.ts';
 import { DbClient } from '../config/db_client.ts';
 
@@ -47,11 +43,4 @@ const getShortUrl = async (ctx: RouterContext) => {
   }
 };
 
-const getFavicon = async (ctx: RouterContext) => {
-  await send(ctx, ctx.request.url.pathname, {
-    root: `${Deno.cwd()}/client/dist`,
-    index: 'favicon.ico',
-  });
-};
-
-export { getShortUrl, getFavicon };
+export { getShortUrl };

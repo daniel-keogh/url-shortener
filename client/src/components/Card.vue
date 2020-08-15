@@ -19,7 +19,7 @@
       </div>
 
       <div class="app-card__content--right">
-        <recents-list :items="recent" @delete-item="handleDelete" />
+        <recents-list :items="recent" />
       </div>
     </div>
   </div>
@@ -80,7 +80,15 @@ export default {
           })
           .then((res) => {
             this.recent.push(res.data.url);
-            this.recent.sort((a, b) => a.isoTimestamp < b.isoTimestamp);
+            this.recent.sort((a, b) => {
+              if (a.isoTimestamp > b.isoTimestamp) {
+                return -1;
+              }
+              if (a.isoTimestamp < b.isoTimestamp) {
+                return 1;
+              }
+              return 0;
+            });
           })
           .catch((e) => {
             this.$buefy.toast.open({
@@ -90,17 +98,14 @@ export default {
               type: 'is-danger',
             });
           });
+      } else {
+        this.$buefy.toast.open({
+          duration: 2000,
+          message: 'That URL was already submitted!',
+          type: 'is-danger',
+          position: 'is-bottom',
+        });
       }
-    },
-
-    handleDelete(item) {
-      axios.delete(`http://localhost:5000/api/urls/${item.code}`).then(() => {
-        const index = this.recent.findIndex((e) => e.code === item.code);
-
-        if (index > -1) {
-          this.recent.splice(index, 1);
-        }
-      });
     },
   },
 };

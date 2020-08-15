@@ -81,7 +81,7 @@ export default {
     left: 50%;
     width: 0;
     height: 3px;
-    background-color: #7957d5;
+    background-color: var(--color-primary);
     transition: all 0.15s ease-in-out;
   }
 
@@ -94,7 +94,7 @@ export default {
 .danger {
   &::after {
     content: '';
-    background-color: #ff476c;
+    background-color: var(--color-error);
   }
 }
 </style>

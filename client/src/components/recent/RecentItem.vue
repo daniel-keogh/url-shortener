@@ -2,7 +2,7 @@
   <div class="recent-item">
     <div>
       <a class="recent-item__title" :href="item.shortUrl" target="_blank">
-        {{ item.shortUrl }}
+        {{ item.shortUrl | hideHttp }}
       </a>
       <p class="recent-item__subtitle">
         {{ item.longUrl | limit('65') }}
@@ -38,6 +38,11 @@ export default {
     limit: (value, length) => {
       const str = value.substring(0, length);
       return value.length > length ? `${str}...` : str;
+    },
+
+    hideHttp: (value) => {
+      // Hide http(s) from URL
+      return value.replace(/^https?:\/\//, '');
     },
   },
 

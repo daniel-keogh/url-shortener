@@ -13,24 +13,30 @@ app.use(async (ctx, next) => {
   ctx.response.headers.set('Access-Control-Allow-Origin', '*');
   ctx.response.headers.set(
     'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE'
+    'GET, POST, PUT, DELETE, OPTIONS'
   );
   ctx.response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
   await next();
+});
+
+// Serve client app
+app.use(async (ctx, next) => {
+  try {
+    await send(ctx, ctx.request.url.pathname, {
+      root: `${Deno.cwd()}/client/dist`,
+      index: 'index.html',
+    });
+  } catch (_) {
+    await next();
+  }
 });
 
 // Routes
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-// Serve client app
-app.use(async (ctx) => {
-  await send(ctx, ctx.request.url.pathname, {
-    root: `${Deno.cwd()}/client/dist`,
-    index: 'index.html',
-  });
+app.addEventListener('listen', () => {
+  console.log(`Server listening on port: ${port}`);
 });
-
-console.log(`Server listening on port: ${port}`);
 
 await app.listen({ port: +port });

@@ -38,8 +38,13 @@ main {
   max-width: 80rem;
 }
 
+:root {
+  --color-primary: #7957d5;
+  --color-error: #ff476c;
+}
+
 ::selection {
   color: white;
-  background-color: #7957d5;
+  background-color: var(--color-primary);
 }
 </style>
