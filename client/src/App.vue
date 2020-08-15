@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import AppCard from './components/Card';
+import AppCard from "./components/Card";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    AppCard,
-  },
+    AppCard
+  }
 };
 </script>
 

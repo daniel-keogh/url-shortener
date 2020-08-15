@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import InputBox from './InputBox';
+import InputBox from "./InputBox";
 
 export default {
-  name: 'AppForm',
+  name: "AppForm",
 
   components: {
-    InputBox,
+    InputBox
   },
 
   computed: {
@@ -38,29 +38,29 @@ export default {
       }
 
       return true;
-    },
+    }
   },
 
   data() {
     return {
-      longUrl: '',
+      longUrl: ""
     };
   },
 
   methods: {
     onSubmit() {
       if (this.isValid) {
-        this.$emit('url-submit', this.longUrl.trim());
+        this.$emit("url-submit", this.longUrl.trim());
       } else {
         this.$buefy.toast.open({
           duration: 2000,
-          message: 'Please enter a valid URL',
-          type: 'is-danger',
-          position: 'is-bottom',
+          message: "Please enter a valid URL",
+          type: "is-danger",
+          position: "is-bottom"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -5,7 +5,7 @@
         {{ item.shortUrl | hideHttp }}
       </a>
       <p class="recent-item__subtitle">
-        {{ item.longUrl | limit('65') }}
+        {{ item.longUrl | limit("65") }}
       </p>
     </div>
 
@@ -15,22 +15,22 @@
       :outlined="!isCopied"
       @click="handleCopy"
     >
-      {{ isCopied ? 'Copied!' : 'Copy' }}
+      {{ isCopied ? "Copied!" : "Copy" }}
     </b-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RecentItem',
+  name: "RecentItem",
 
   props: {
-    item: Object,
+    item: Object
   },
 
   data: () => {
     return {
-      isCopied: false,
+      isCopied: false
     };
   },
 
@@ -40,10 +40,10 @@ export default {
       return value.length > length ? `${str}...` : str;
     },
 
-    hideHttp: (value) => {
+    hideHttp: value => {
       // Hide http(s) from URL
-      return value.replace(/^https?:\/\//, '');
-    },
+      return value.replace(/^https?:\/\//, "");
+    }
   },
 
   methods: {
@@ -54,8 +54,8 @@ export default {
       setTimeout(() => {
         this.isCopied = false;
       }, 2000);
-    },
-  },
+    }
+  }
 };
 </script>
 

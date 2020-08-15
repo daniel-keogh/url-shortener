@@ -15,14 +15,14 @@
 
 <script>
 export default {
-  name: 'InputBox',
+  name: "InputBox",
 
   props: {
     autofocus: Boolean,
     isValid: Boolean,
     placeholder: String,
-    value: String,
-  },
+    value: String
+  }
 };
 </script>
 
@@ -76,7 +76,7 @@ export default {
   }
 
   &::after {
-    content: '';
+    content: "";
     position: relative;
     left: 50%;
     width: 0;
@@ -93,7 +93,7 @@ export default {
 
 .danger {
   &::after {
-    content: '';
+    content: "";
     background-color: var(--color-error);
   }
 }

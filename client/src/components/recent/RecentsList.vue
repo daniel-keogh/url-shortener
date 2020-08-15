@@ -5,18 +5,18 @@
 </template>
 
 <script>
-import RecentItem from './RecentItem';
+import RecentItem from "./RecentItem";
 
 export default {
-  name: 'RecentsList',
+  name: "RecentsList",
 
   components: {
-    RecentItem,
+    RecentItem
   },
 
   props: {
-    items: Array,
-  },
+    items: Array
+  }
 };
 </script>
 

@@ -26,22 +26,22 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
-import AppForm from './form/Form';
-import RecentsList from './recent/RecentsList';
+import AppForm from "./form/Form";
+import RecentsList from "./recent/RecentsList";
 
 export default {
-  name: 'AppCard',
+  name: "AppCard",
 
   components: {
     AppForm,
-    RecentsList,
+    RecentsList
   },
 
   data() {
     return {
-      recent: [],
+      recent: []
     };
   },
 
@@ -50,35 +50,33 @@ export default {
       this.recent = JSON.parse(localStorage.recent) ?? [];
     }
 
-    const codes = this.recent.map((e) => e.code);
+    const codes = this.recent.map(e => e.code);
 
-    codes.forEach((code) => {
-      axios
-        .get(`http://localhost:5000/${code}?no_redirect=true`)
-        .catch((err) => {
-          if (err.response.status === 404) {
-            this.recent = this.recent.filter((e) => e.code === code);
-          }
-        });
+    codes.forEach(code => {
+      axios.get(`http://localhost:5000/${code}?no_redirect=true`).catch(err => {
+        if (err.response.status === 404) {
+          this.recent = this.recent.filter(e => e.code === code);
+        }
+      });
     });
   },
 
   watch: {
     recent(data) {
       localStorage.recent = JSON.stringify(data);
-    },
+    }
   },
 
   methods: {
     handleSubmit(longUrl) {
-      const index = this.recent.findIndex((e) => e.longUrl === longUrl);
+      const index = this.recent.findIndex(e => e.longUrl === longUrl);
 
       if (index === -1) {
         axios
           .post(`http://localhost:5000/api/urls`, {
-            longUrl,
+            longUrl
           })
-          .then((res) => {
+          .then(res => {
             this.recent.push(res.data.url);
             this.recent.sort((a, b) => {
               if (a.isoTimestamp > b.isoTimestamp) {
@@ -90,24 +88,24 @@ export default {
               return 0;
             });
           })
-          .catch((e) => {
+          .catch(e => {
             this.$buefy.toast.open({
               duration: 2000,
               message: e.message,
-              position: 'is-bottom',
-              type: 'is-danger',
+              position: "is-bottom",
+              type: "is-danger"
             });
           });
       } else {
         this.$buefy.toast.open({
           duration: 2000,
-          message: 'That URL was already submitted!',
-          type: 'is-danger',
-          position: 'is-bottom',
+          message: "That URL was already submitted!",
+          type: "is-danger",
+          position: "is-bottom"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
