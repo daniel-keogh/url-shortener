@@ -4,7 +4,7 @@
       autofocus
       v-model="longUrl"
       placeholder="Enter a URL..."
-      :isValid="isValid || longUrl.length === 0"
+      :isValid="isValidUrl || longUrl.length === 0"
     />
 
     <b-button
@@ -30,7 +30,7 @@ export default {
   },
 
   computed: {
-    isValid() {
+    isValidUrl() {
       try {
         new URL(this.longUrl.trim());
       } catch (_) {
@@ -49,7 +49,7 @@ export default {
 
   methods: {
     onSubmit() {
-      if (this.isValid) {
+      if (this.isValidUrl) {
         this.$emit("url-submit", this.longUrl.trim());
       } else {
         this.$buefy.toast.open({

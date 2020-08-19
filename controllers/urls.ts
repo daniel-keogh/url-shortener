@@ -32,11 +32,11 @@ const getAllUrls = async (ctx: RouterContext) => {
 
 const addUrl = async (ctx: RouterContext) => {
   try {
-    const data = await ctx.request.body().value;
+    const body = await ctx.request.body().value;
 
     // Check if valid Url
     try {
-      new URL(data.longUrl);
+      new URL(body.longUrl);
     } catch (e) {
       ctx.response.status = Status.UnprocessableEntity;
       ctx.response.body = {
@@ -48,20 +48,20 @@ const addUrl = async (ctx: RouterContext) => {
 
     // Check if url already exists
     const existingUrl: any = await DbClient.urls().findOne({
-      longUrl: data.longUrl,
+      longUrl: body.longUrl,
     });
 
-    let url: Url;
-
     if (existingUrl) {
-      url = {
-        code: existingUrl.code,
-        longUrl: existingUrl.longUrl,
-        shortUrl: existingUrl.shortUrl,
-        isoTimestamp: existingUrl.isoTimestamp,
+      // Send the existing url
+      ctx.response.body = {
+        success: true,
+        url: {
+          ...existingUrl,
+          _id: existingUrl._id.$oid,
+        },
       };
     } else {
-      const code = uid(6);
+      const slug = uid(6);
       const host = Deno.env.get('HOST');
 
       if (!host) {
@@ -69,20 +69,24 @@ const addUrl = async (ctx: RouterContext) => {
         throw new Error();
       }
 
-      url = {
-        code,
-        shortUrl: `${host}/${code}`,
-        longUrl: data.longUrl,
+      const url: Url = {
+        slug,
+        shortUrl: `${host}/${slug}`,
+        longUrl: body.longUrl,
         isoTimestamp: new Date().toISOString(),
       };
 
-      await DbClient.urls().insertOne(url);
-    }
+      const _id = await DbClient.urls().insertOne(url);
 
-    ctx.response.body = {
-      success: true,
-      url,
-    };
+      ctx.response.status = Status.Created;
+      ctx.response.body = {
+        success: true,
+        url: {
+          ...url,
+          _id: _id.$oid,
+        },
+      };
+    }
   } catch (_) {
     ctx.response.status = Status.InternalServerError;
     ctx.response.body = {
@@ -95,7 +99,7 @@ const addUrl = async (ctx: RouterContext) => {
 const deleteUrl = async (ctx: RouterContext) => {
   try {
     const count: number = await DbClient.urls().deleteOne({
-      code: ctx.params.code,
+      slug: ctx.params.slug,
     });
 
     ctx.response.body = {

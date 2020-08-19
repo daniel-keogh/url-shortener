@@ -9,9 +9,9 @@ const router = new Router();
 router
   .get('/api/urls', getAllUrls)
   .post('/api/urls', addUrl)
-  .delete('/api/urls/:code', deleteUrl);
+  .delete('/api/urls/:slug', deleteUrl);
 
 // index
-router.get('/:code', getShortUrl);
+router.get('/:slug', getShortUrl);
 
 export default router;

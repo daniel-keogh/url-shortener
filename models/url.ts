@@ -1,5 +1,5 @@
 export interface Url {
-  code: string;
+  slug: string;
   longUrl: string;
   shortUrl: string;
   isoTimestamp: string;

@@ -1,6 +1,6 @@
 <template>
   <div class="recent-list">
-    <recent-item :item="item" v-for="item in items" :key="item.code" />
+    <recent-item :item="item" v-for="item in items" :key="item.slug" />
   </div>
 </template>
 
@@ -28,7 +28,6 @@ export default {
 
   overflow-x: hidden;
   overflow-y: auto;
-  scrollbar-width: thin;
 
   & > div {
     padding: 1rem 0;

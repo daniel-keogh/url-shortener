@@ -50,12 +50,12 @@ export default {
       this.recent = JSON.parse(localStorage.recent) ?? [];
     }
 
-    const codes = this.recent.map(e => e.code);
+    const slugs = this.recent.map(e => e.slug);
 
-    codes.forEach(code => {
-      axios.get(`http://localhost:5000/${code}?no_redirect=true`).catch(err => {
+    slugs.forEach(slug => {
+      axios.get(`http://localhost:5000/${slug}?no_redirect=true`).catch(err => {
         if (err.response.status === 404) {
-          this.recent = this.recent.filter(e => e.code === code);
+          this.recent = this.recent.filter(e => e.slug === slug);
         }
       });
     });
@@ -89,21 +89,20 @@ export default {
             });
           })
           .catch(e => {
-            this.$buefy.toast.open({
-              duration: 2000,
-              message: e.message,
-              position: "is-bottom",
-              type: "is-danger"
-            });
+            this.showToast(e.response.data.message);
           });
       } else {
-        this.$buefy.toast.open({
-          duration: 2000,
-          message: "That URL was already submitted!",
-          type: "is-danger",
-          position: "is-bottom"
-        });
+        this.showToast("You already submitted that URL!");
       }
+    },
+
+    showToast(message) {
+      this.$buefy.toast.open({
+        duration: 2000,
+        message,
+        position: "is-bottom",
+        type: "is-danger"
+      });
     }
   }
 };

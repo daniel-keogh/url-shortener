@@ -5,7 +5,7 @@ import { DbClient } from '../config/db_client.ts';
 const getShortUrl = async (ctx: RouterContext) => {
   try {
     const url = await DbClient.urls().findOne({
-      code: ctx.params.code,
+      slug: ctx.params.slug,
     });
 
     if (!url) {

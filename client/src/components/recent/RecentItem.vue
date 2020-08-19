@@ -74,5 +74,9 @@ export default {
     font-size: 0.9rem;
     color: gray;
   }
+
+  div {
+    padding-right: 1rem;
+  }
 }
 </style>
