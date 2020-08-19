@@ -89,7 +89,7 @@ export default {
             });
           })
           .catch(e => {
-            this.showToast(e.response.data.message);
+            this.showToast(e.message);
           });
       } else {
         this.showToast("You already submitted that URL!");
