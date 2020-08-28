@@ -6,6 +6,10 @@ import "buefy/dist/buefy.css";
 
 import VueClipboard from "vue-clipboard2";
 
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:5000";
+
 Vue.use(Buefy);
 Vue.use(VueClipboard);
 

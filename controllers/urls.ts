@@ -13,7 +13,7 @@ const getAllUrls = async (ctx: RouterContext) => {
     const urls = data.map((item) => {
       return {
         ...item,
-        _id: item._id.$oid,
+        _id: item._id?.$oid,
       };
     });
 
@@ -37,6 +37,10 @@ const addUrl = async (ctx: RouterContext) => {
     // Check if valid Url
     try {
       new URL(body.longUrl);
+
+      if (body.longUrl.match(/^(https?:\/\/)?localhost:.*/)) {
+        throw new Error('Links to this domain are not allowed');
+      }
     } catch (e) {
       ctx.response.status = Status.UnprocessableEntity;
       ctx.response.body = {

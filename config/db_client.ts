@@ -2,7 +2,7 @@ import {
   Database,
   MongoClient,
   Collection,
-} from 'https://deno.land/x/mongo@v0.10.1/mod.ts';
+} from 'https://deno.land/x/mongo@v0.11.1/mod.ts';
 import { Url } from './../models/url.ts';
 
 export namespace DbClient {

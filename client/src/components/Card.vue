@@ -53,8 +53,8 @@ export default {
     const slugs = this.recent.map(e => e.slug);
 
     slugs.forEach(slug => {
-      axios.get(`http://localhost:5000/${slug}?no_redirect=true`).catch(err => {
-        if (err.response.status === 404) {
+      axios.get(`/${slug}?no_redirect=true`).catch(err => {
+        if (err.response?.status === 404) {
           this.recent = this.recent.filter(e => e.slug === slug);
         }
       });
@@ -73,7 +73,7 @@ export default {
 
       if (index === -1) {
         axios
-          .post(`http://localhost:5000/api/urls`, {
+          .post(`/api/urls`, {
             longUrl
           })
           .then(res => {
@@ -89,7 +89,11 @@ export default {
             });
           })
           .catch(e => {
-            this.showToast(e.message);
+            if (e.response) {
+              this.showToast(e.response.data.message);
+            } else {
+              this.showToast(e.message);
+            }
           });
       } else {
         this.showToast("You already submitted that URL!");
