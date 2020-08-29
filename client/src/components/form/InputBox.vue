@@ -1,7 +1,8 @@
 <template>
   <div class="input-box" :class="{ danger: !isValid }">
     <label for="input" class="input-box__label">
-      {{ placeholder }}
+      <span>{{ placeholder }}</span>
+      <span>{{ optional ? "(Optional)" : "" }}</span>
     </label>
 
     <input
@@ -23,6 +24,7 @@ export default {
   props: {
     autofocus: Boolean,
     isValid: Boolean,
+    optional: Boolean,
     placeholder: String,
     value: String
   }
@@ -39,6 +41,12 @@ export default {
 
   &__label {
     transition: inherit;
+    display: flex;
+    justify-content: space-between;
+
+    & > *:last-child {
+      font-style: italic;
+    }
   }
 
   &__input {

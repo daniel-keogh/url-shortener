@@ -1,10 +1,18 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" @keyup.enter="onSubmit">
     <input-box
       autofocus
       v-model="longUrl"
       placeholder="Enter a URL..."
       :isValid="isValidUrl || longUrl.length === 0"
+    />
+
+    <input-box
+      autofocus
+      optional
+      isValid
+      v-model="slug"
+      placeholder="Enter a slug..."
     />
 
     <b-button
@@ -13,9 +21,8 @@
       type="is-primary"
       size="is-medium"
       @click="onSubmit"
+      >Submit</b-button
     >
-      Submit
-    </b-button>
   </form>
 </template>
 
@@ -43,14 +50,15 @@ export default {
 
   data() {
     return {
-      longUrl: ""
+      longUrl: "",
+      slug: ""
     };
   },
 
   methods: {
     onSubmit() {
       if (this.isValidUrl) {
-        this.$emit("url-submit", this.longUrl.trim());
+        this.$emit("url-submit", this.longUrl.trim(), this.slug.trim());
       } else {
         this.$buefy.toast.open({
           duration: 2000,
@@ -68,6 +76,10 @@ export default {
 form {
   width: 100%;
   padding: 0 3rem;
+
+  & > *:first-child {
+    padding-bottom: 1rem;
+  }
 
   @media (max-width: 1100px) {
     padding: 0 1rem;

@@ -46,8 +46,8 @@ export default {
   },
 
   mounted() {
-    if (localStorage.recent) {
-      this.recent = JSON.parse(localStorage.recent) ?? [];
+    if (sessionStorage.recent) {
+      this.recent = JSON.parse(sessionStorage.recent) ?? [];
     }
 
     const slugs = this.recent.map(e => e.slug);
@@ -63,18 +63,19 @@ export default {
 
   watch: {
     recent(data) {
-      localStorage.recent = JSON.stringify(data);
+      sessionStorage.recent = JSON.stringify(data);
     }
   },
 
   methods: {
-    handleSubmit(longUrl) {
+    handleSubmit(longUrl, slug) {
       const index = this.recent.findIndex(e => e.longUrl === longUrl);
 
       if (index === -1) {
         axios
           .post(`/api/urls`, {
-            longUrl
+            longUrl,
+            slug
           })
           .then(res => {
             this.recent.push(res.data.url);
