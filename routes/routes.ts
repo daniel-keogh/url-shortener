@@ -6,6 +6,7 @@ import {
   firstMessages,
   maxLength,
   notNull,
+  match,
 } from 'https://deno.land/x/validasaur@v0.14.0/mod.ts';
 import { isUrl, isDisallowed, uniqueSlug } from '../helpers/validators.ts';
 import { getShortUrl } from '../controllers/index.ts';
@@ -25,17 +26,18 @@ router
         body,
         {
           longUrl: [required, isString, isUrl, isDisallowed],
-          slug: [isString, notNull, maxLength(10), uniqueSlug],
+          slug: [isString, notNull, maxLength(10), match(/^\w+$/), uniqueSlug],
         },
         {
           messages: {
             'longUrl.required': 'URL is required',
             'longUrl.isString': 'URL must be a string',
-            'longUrl.isUrl': 'URL must be a valid URL',
-            'longUrl.isDisallowed': 'Links to this domain are not allowed',
+            'longUrl.isUrl': 'URL is invalid',
+            'longUrl.isDisallowed': 'Links to that domain are not allowed',
             'slug.isString': 'Slug must be a string',
             'slug.maxLength': 'Slug is too long',
-            'slug.uniqueSlug': 'Slug is already taken',
+            'slug.match': 'Slug must be alphanumeric',
+            'slug.uniqueSlug': 'That slug has already been taken',
           },
         }
       );
