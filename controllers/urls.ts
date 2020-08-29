@@ -34,25 +34,10 @@ const addUrl = async (ctx: RouterContext) => {
   try {
     const body = await ctx.request.body().value;
 
-    // Check if valid Url
-    try {
-      new URL(body.longUrl);
-
-      if (body.longUrl.match(/^(https?:\/\/)?localhost:.*/)) {
-        throw new Error('Links to this domain are not allowed');
-      }
-    } catch (e) {
-      ctx.response.status = Status.UnprocessableEntity;
-      ctx.response.body = {
-        success: false,
-        message: e.message,
-      };
-      return;
-    }
-
     // Check if url already exists
     const existingUrl: any = await DbClient.urls().findOne({
       longUrl: body.longUrl,
+      slug: body.slug,
     });
 
     if (existingUrl) {
@@ -65,7 +50,7 @@ const addUrl = async (ctx: RouterContext) => {
         },
       };
     } else {
-      const slug = uid(6);
+      const slug = body.slug || uid(6);
       const host = Deno.env.get('HOST');
 
       if (!host) {
