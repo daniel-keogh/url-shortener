@@ -53,7 +53,7 @@ export default {
     padding: 0.8rem;
 
     font-family: inherit;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 
     box-shadow: none;
     border: none;
